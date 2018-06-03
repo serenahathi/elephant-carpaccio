@@ -2,7 +2,7 @@ function Calculator(numberOfItems, pricePerItem) {
   this.orderValue = numberOfItems * pricePerItem;
 }
 
-Calculator.prototype.baseOrderValue = function (numberOfItems, pricePerItem, state) {
+Calculator.prototype.printOrderValue = function (numberOfItems, pricePerItem) {
   return this.orderValue
 };
 
@@ -23,7 +23,7 @@ Calculator.prototype.applyDiscount = function (numberOfItems, pricePerItem) {
   return this.orderValue;
 };
 
-Calculator.prototype.applyTaxes = function (numberOfItems, pricePerItem, state) {
+Calculator.prototype.applyTaxes = function (state) {
   if (state === "UT") {
     this.orderValue += this.orderValue * 0.0685
   } else if (state === "NV") {
@@ -39,3 +39,10 @@ Calculator.prototype.applyTaxes = function (numberOfItems, pricePerItem, state) 
   }
   return this.orderValue;
 };
+
+Calculator.prototype.totalOrderValue = function (numberOfItems, pricePerItem, state) {
+  this.applyDiscount(numberOfItems, pricePerItem);
+  this.applyTaxes(state);
+  this.printOrderValue(numberOfItems, pricePerItem)
+  return this.orderValue;
+}

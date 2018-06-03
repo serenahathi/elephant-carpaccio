@@ -3,7 +3,7 @@ describe('Calculator:', function () {
   describe("Base order value", function () {
     it("calculates the order value without discounts and taxes", function () {
       var calculator = new Calculator(3, 3, "UT");
-      expect(calculator.baseOrderValue(3, 3)).toEqual(9);
+      expect(calculator.printOrderValue(3, 3)).toEqual(9);
     });
   });
 
@@ -41,33 +41,47 @@ describe('Calculator:', function () {
 
   describe("Applies taxes", function () {
 
-    beforeEach(function () {
-      var calculator = new Calculator(100, 1, "UT");
-    });
-
     it("applies a 6.85% tax if UT is entered as a state ", function () {
       var calculator = new Calculator(100, 1, "UT");
-      expect(calculator.applyTaxes(100, 1, "UT")).toEqual(106.85);
+      expect(calculator.applyTaxes("UT")).toEqual(106.85);
     });
 
     it("applies a 8% tax if NV is entered as a state ", function () {
       var calculator = new Calculator(100, 1, "NV");
-      expect(calculator.applyTaxes(100, 1, "NV")).toEqual(108);
+      expect(calculator.applyTaxes("NV")).toEqual(108);
     });
 
     it("applies a 6.25% tax if TX is entered as a state ", function () {
       var calculator = new Calculator(100, 1, "TX");
-      expect(calculator.applyTaxes(100, 1, "TX")).toEqual(106.25);
+      expect(calculator.applyTaxes("TX")).toEqual(106.25);
     });
 
     it("applies a 4% tax if AL is entered as a state ", function () {
       var calculator = new Calculator(100, 1, "AL");
-      expect(calculator.applyTaxes(100, 1, "AL")).toEqual(104);
+      expect(calculator.applyTaxes("AL")).toEqual(104);
     });
 
     it("applies a 8.25% tax if CA is entered as a state ", function () {
       var calculator = new Calculator(100, 1, "CA");
-      expect(calculator.applyTaxes(100, 1, "CA")).toEqual(108.25);
+      expect(calculator.applyTaxes("CA")).toEqual(108.25);
     });
   });
+
+  describe("Final calculation", function() {
+    it("calculates the total order value after discounts and tax for an average sum", function(){
+      var calculator = new Calculator(5,1000,"NV");
+      expect(calculator.totalOrderValue(5,1000,"NV")).toEqual(5130);
+    });
+
+    it("calculates the total order value after discounts and tax for a large sum", function(){
+      var calculator = new Calculator(160,1000,"AL");
+      expect(calculator.totalOrderValue(160,1000,"AL")).toEqual(141440);
+    });
+
+    it("calculates the total order value after discounts and tax for a small sum", function(){
+      var calculator = new Calculator(1,10,"CA");
+      expect(calculator.totalOrderValue(1,10,"CA")).toEqual(10.825);
+    });
+  });
+
 });
